@@ -1,1 +1,2 @@
-"# Memory_Android" 
+# Memory Android版
+如果人只需要两样东西，那么一个是思想，另一个是 **记忆**
