@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Memory</string>
+
+    <string name="storage_image_description">storage image</string>
+</resources>
