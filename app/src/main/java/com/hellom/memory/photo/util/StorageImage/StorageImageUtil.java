@@ -27,11 +27,11 @@ public class StorageImageUtil {
     /**
      * 获取图片列表，并根据日期分类
      */
-    public static List<StorageImageDateSortBean> getDateSortImagesFromStorage(Activity activity, String albumId, String albumName) {
+    public static List<StorageImageDateSortBean> getDateSortImagesFromStorage(Activity activity, String albumName) {
         List<StorageImageDateSortBean> storageImageDateSortBeanList = new ArrayList<>();
         List<StorageImageBean> storageImageBeanList = null;
         if (activity != null) {
-            List<StorageImageBean> storageImageBeans = getImagesFromStorage(activity, albumId, albumName);
+            List<StorageImageBean> storageImageBeans = getImagesFromStorage(activity, albumName);
             for (StorageImageBean storageImageBean : storageImageBeans) {
                 String date = storageImageBean.getDate();
                 //判断是否需要添加新的日期归类
@@ -62,7 +62,7 @@ public class StorageImageUtil {
     /**
      * 获取图片列表
      */
-    public static List<StorageImageBean> getImagesFromStorage(Activity activity, String albumId, String albumName) {
+    public static List<StorageImageBean> getImagesFromStorage(Activity activity, String albumPath) {
         List<StorageImageBean> storageImageBeanList = new ArrayList<>();
         if (activity != null) {
             ContentResolver contentResolver = activity.getContentResolver();
@@ -71,15 +71,13 @@ public class StorageImageUtil {
             String[] projection = new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN};
             String selection = null;
             String[] selectionArgs = null;
-            if (albumId != null && albumName != null) {
+            if (albumPath != null) {
                 //指定了相册
-                selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + "=? and " + MediaStore.Images.Media.BUCKET_ID + "=?";
-                selectionArgs = new String[]{albumName, albumId};
+                selection = MediaStore.Images.Media.DATA + " like '%?%'";
+                selectionArgs = new String[]{albumPath};
             }
             //查找图片
-            cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    projection, selection, selectionArgs,
-                    MediaStore.Images.Media.DATE_TAKEN + " DESC");
+            cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.Images.Media.DATE_TAKEN + " DESC");
             if (cursor != null) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
                 while (cursor.moveToNext()) {
@@ -115,18 +113,21 @@ public class StorageImageUtil {
         List<StorageAlbumBean> storageAlbumBeans = new ArrayList<>();
         if (activity != null) {
             ContentResolver contentResolver = activity.getContentResolver();
-            Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    new String[]{"distinct " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.BUCKET_ID},
-                    null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
+            String[] projection = new String[]{"distinct " + MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.BUCKET_ID, MediaStore.Images.Media.DATA};
+            Cursor cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     //相册信息
                     String id = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
                     String albumName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                    String pathTemp = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    int lastCharIndex = pathTemp.lastIndexOf("/");
+                    String path = pathTemp.substring(0, lastCharIndex);
                     //添加到相册列表
                     StorageAlbumBean storageAlbumBean = new StorageAlbumBean();
                     storageAlbumBean.setId(id);
                     storageAlbumBean.setAlbumName(albumName);
+                    storageAlbumBean.setPath(path);
                     storageAlbumBeans.add(storageAlbumBean);
                 }
                 cursor.close();

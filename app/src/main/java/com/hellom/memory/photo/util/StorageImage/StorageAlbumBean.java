@@ -7,6 +7,7 @@ package com.hellom.memory.photo.util.StorageImage;
 public class StorageAlbumBean {
     private String id;
     private String albumName;
+    private String path;
 
     public String getId() {
         return id;
@@ -22,5 +23,13 @@ public class StorageAlbumBean {
 
     public void setAlbumName(String albumName) {
         this.albumName = albumName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

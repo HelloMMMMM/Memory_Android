@@ -33,8 +33,7 @@ public class StorageImageFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_storage_image, container, false);
 
         storageImageList = layout.findViewById(R.id.storage_image_list);
@@ -48,7 +47,7 @@ public class StorageImageFragment extends Fragment {
         });
         storageImageList.setAdapter(storageImageListAdapter);
 
-        List<StorageImageDateSortBean> storageImageDateSortBeans = StorageImageUtil.getDateSortImagesFromStorage(getActivity(), null, null);
+        List<StorageImageDateSortBean> storageImageDateSortBeans = StorageImageUtil.getDateSortImagesFromStorage(getActivity(), "/storage/emulated/0/DCIM/Camera/");
         List<StorageImageItemBean> storageImageItemBeans = convertData(storageImageDateSortBeans);
         storageImageListAdapter.setNewData(storageImageItemBeans);
 
