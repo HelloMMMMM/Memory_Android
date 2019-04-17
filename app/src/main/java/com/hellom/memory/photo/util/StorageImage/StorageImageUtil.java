@@ -70,16 +70,14 @@ public class StorageImageUtil {
             //设置查找参数
             String[] projection = new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN};
             String selection = null;
-            String[] selectionArgs = null;
             if (albumPath != null) {
                 //指定了相册
-                selection = MediaStore.Images.Media.DATA + " like '%?%'";
-                selectionArgs = new String[]{albumPath};
+                selection = MediaStore.Images.Media.DATA + " like '%" + albumPath + "%'";
             }
             //查找图片
-            cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgs, MediaStore.Images.Media.DATE_TAKEN + " DESC");
+            cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, null, MediaStore.Images.Media.DATE_TAKEN + " DESC");
             if (cursor != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
                 while (cursor.moveToNext()) {
                     //图片路径
                     int pathColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
