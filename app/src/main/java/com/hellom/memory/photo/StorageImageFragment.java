@@ -4,6 +4,7 @@ package com.hellom.memory.photo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hellom.memory.R;
 import com.hellom.memory.photo.util.StorageImage.StorageImageBean;
 import com.hellom.memory.photo.util.StorageImage.StorageImageContentItemBean;
@@ -47,7 +49,8 @@ public class StorageImageFragment extends Fragment {
         });
         storageImageList.setAdapter(storageImageListAdapter);
 
-        List<StorageImageDateSortBean> storageImageDateSortBeans = StorageImageUtil.getDateSortImagesFromStorage(getActivity(), "/storage/emulated/0/DCIM/Camera/");
+        List<StorageImageDateSortBean> storageImageDateSortBeans = StorageImageUtil.getDateSortImagesFromStorage(getActivity(), "/storage/emulated/0/DCIM/Camera/", true);
+        //List<StorageImageDateSortBean> storageImageDateSortBeans = StorageImageUtil.getDateSortImagesFromStorage(getActivity(), null, true);
         List<StorageImageItemBean> storageImageItemBeans = convertData(storageImageDateSortBeans);
         storageImageListAdapter.setNewData(storageImageItemBeans);
 
