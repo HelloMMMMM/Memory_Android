@@ -95,7 +95,6 @@ public class StorageImageUtil {
             //查找图片
             cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, selection, selectionArgsList.toArray(selectionArgs), MediaStore.Images.Media.DATE_TAKEN + " DESC");
             if (cursor != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
                 while (cursor.moveToNext()) {
                     //图片路径
                     int pathColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
@@ -109,7 +108,7 @@ public class StorageImageUtil {
                         if (dateMs <= 0) {
                             date = "未知日期";
                         } else {
-                            date = TimeUtils.millis2String(dateMs, dateFormat);
+                            date = DateUtil.getDateWithTodayOrYesterday(dateMs);
                         }
                         //满足要求数据添加到列表
                         StorageImageBean storageImageBean = new StorageImageBean();
