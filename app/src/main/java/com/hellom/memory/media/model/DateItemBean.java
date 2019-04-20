@@ -1,10 +1,10 @@
-package com.hellom.memory.photo;
+package com.hellom.memory.media.model;
 
 /**
  * author:helloM
  * email:1694327880@qq.com
  */
-public class StorageImageDateItemBean extends StorageImageItemBean {
+public class DateItemBean extends ItemBean {
 
     private String date;
 

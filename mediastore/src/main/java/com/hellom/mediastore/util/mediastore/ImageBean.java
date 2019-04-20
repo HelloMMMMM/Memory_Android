@@ -1,10 +1,10 @@
-package com.hellom.memory.photo.util.StorageImage;
+package com.hellom.mediastore.util.mediastore;
 
 /**
  * author:helloM
  * email:1694327880@qq.com
  */
-public class StorageImageBean {
+public class ImageBean {
     private String date;
     private String path;
 

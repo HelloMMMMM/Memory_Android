@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Memory</string>
+
+    <string name="media_image_description">媒体图片</string>
+
+    <string name="permission_denied">请授予必需的权限!</string>
+</resources>

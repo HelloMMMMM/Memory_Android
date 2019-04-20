@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Memory</string>
 
-    <string name="storage_image_description">storage image</string>
+    <string name="media_image_description">media image</string>
+
+    <string name="permission_denied">Please granted permissions</string>
 </resources>

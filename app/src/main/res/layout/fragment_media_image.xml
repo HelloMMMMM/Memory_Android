@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".photo.StorageImageFragment">
+    android:background="@android:color/white"
+    tools:context=".media.view.MediaImageFragment">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/storage_image_list"
+        android:id="@+id/media_image_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="0.75dp"

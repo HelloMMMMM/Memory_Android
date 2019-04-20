@@ -1,12 +1,10 @@
-package com.hellom.memory.photo.util.StorageImage;
-
-import com.hellom.memory.photo.StorageImageItemBean;
+package com.hellom.memory.media.model;
 
 /**
  * author:helloM
  * email:1694327880@qq.com
  */
-public class StorageImageContentItemBean extends StorageImageItemBean {
+public class ContentItemBean extends ItemBean {
     private String path;
 
     public String getPath() {
