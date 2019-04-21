@@ -11,7 +11,7 @@ import java.util.Locale;
 public class DateUtil {
 
     private DateUtil() {
-        throw new UnsupportedOperationException("u can not init me...");
+        throw new UnsupportedOperationException("u cannot init me!");
     }
 
     /**

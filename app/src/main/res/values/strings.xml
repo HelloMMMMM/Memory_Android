@@ -4,4 +4,8 @@
     <string name="media_image_description">media image</string>
 
     <string name="permission_denied">Please granted permissions</string>
+
+    <!--home activity-->
+    <string name="ac_home_tab_photo">Photo</string>
+    <string name="ac_home_tab_album">Album</string>
 </resources>

@@ -17,5 +17,9 @@ public interface MediaContract {
         List<ItemBean> getItems();
 
         List<ItemBean> getDateSortItems();
+
+        void startPreview();
+
+        List<String> getSourceData();
     }
 }

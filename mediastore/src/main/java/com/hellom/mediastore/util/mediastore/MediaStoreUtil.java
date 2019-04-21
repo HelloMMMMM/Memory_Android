@@ -20,7 +20,7 @@ import java.util.List;
 public class MediaStoreUtil {
 
     private MediaStoreUtil() {
-        throw new UnsupportedOperationException("u can not init me...");
+        throw new UnsupportedOperationException("u cannot init me!");
     }
 
     /**

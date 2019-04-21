@@ -16,11 +16,14 @@ import com.hellom.memory.media.MediaContract;
 import com.hellom.memory.media.model.ItemBean;
 import com.hellom.memory.media.presenter.MediaPresenter;
 
+
 public class MediaImageFragment extends Fragment implements MediaContract.View {
 
     private MediaImageListAdapter imageListAdapter;
 
     private MediaPresenter mediaPresenter;
+
+    private RecyclerView imageList;
 
     public static MediaImageFragment newInstance() {
         Bundle args = new Bundle();
@@ -45,7 +48,7 @@ public class MediaImageFragment extends Fragment implements MediaContract.View {
     }
 
     private void initView(View layout) {
-        RecyclerView imageList = layout.findViewById(R.id.media_image_list);
+        imageList = layout.findViewById(R.id.media_image_list);
         GridLayoutManager mGridLayoutManager = new CustomVerticalScrollSpeedGridLayoutManager(getActivity(), ItemBean.MAX_SPAN_SIZE);
         imageList.setLayoutManager(mGridLayoutManager);
         imageListAdapter = new MediaImageListAdapter(null);
@@ -64,7 +67,6 @@ public class MediaImageFragment extends Fragment implements MediaContract.View {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (view.getId()) {
                     case R.id.iv_media_image:
-
                         break;
                     default:
                         break;
@@ -77,4 +79,5 @@ public class MediaImageFragment extends Fragment implements MediaContract.View {
         //imageListAdapter.setNewData(mediaPresenter.getItems());
         imageListAdapter.setNewData(mediaPresenter.getDateSortItems());
     }
+
 }

@@ -2,13 +2,13 @@ package com.hellom.memory.media.view;
 
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hellom.memory.R;
 import com.hellom.memory.media.model.ContentItemBean;
 import com.hellom.memory.media.model.DateItemBean;
 import com.hellom.memory.media.model.ItemBean;
+import com.hellom.memory.util.GlideUtil;
 
 import java.util.List;
 
@@ -29,13 +29,13 @@ public class MediaImageListAdapter extends BaseMultiItemQuickAdapter<ItemBean, B
         int itemType = item.getItemType();
         switch (itemType) {
             case ItemBean.ITEM_TYPE_DATE:
-                DateItemBean storageImageDateItemBean = (DateItemBean) item;
-                helper.setText(R.id.tv_media_image_date, storageImageDateItemBean.getDate());
+                DateItemBean dateItemBean = (DateItemBean) item;
+                helper.setText(R.id.tv_media_image_date, dateItemBean.getDate());
                 break;
             case ItemBean.ITEM_TYPE_CONTENT:
-                ImageView storageImage = helper.getView(R.id.iv_media_image);
-                ContentItemBean storageImageContentItemBean = (ContentItemBean) item;
-                Glide.with(mContext).load(storageImageContentItemBean.getPath()).into(storageImage);
+                ImageView image = helper.getView(R.id.iv_media_image);
+                ContentItemBean contentItemBean = (ContentItemBean) item;
+                GlideUtil.loadCenterCorpImage(mContext, contentItemBean.getPath(), image);
                 helper.addOnClickListener(R.id.iv_media_image);
                 break;
             default:

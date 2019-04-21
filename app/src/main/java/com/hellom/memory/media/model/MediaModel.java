@@ -9,10 +9,19 @@ import com.hellom.mediastore.util.mediastore.MediaStoreUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MediaModel {
 
+    private List<String> sourceData;
+
+    public List<String> getSourceData() {
+        return sourceData;
+    }
+
     public List<ItemBean> getDateSortItems(Context context) {
-        return convertDateSortData(getDateSortImages(context));
+        List<ImageDateSortBean> imageDateSortBeans = getDateSortImages(context);
+        convertSourceData(imageDateSortBeans);
+        return convertDateSortData(imageDateSortBeans);
     }
 
     public List<ItemBean> getItems(Context context) {
@@ -20,13 +29,13 @@ public class MediaModel {
     }
 
     private List<ImageDateSortBean> getDateSortImages(Context context) {
-        //return MediaStoreUtil.getDateSortImagesFromStorage(context, "/storage/emulated/0/DCIM/Camera/", true);
-        return MediaStoreUtil.getDateSortImagesFromStorage(context, null, true);
+        return MediaStoreUtil.getDateSortImagesFromStorage(context, "/storage/emulated/0/DCIM/Camera/", true);
+        //return MediaStoreUtil.getDateSortImagesFromStorage(context, null, true);
     }
 
     private List<ImageBean> getImages(Context context) {
-        //return MediaStoreUtil.getImagesFromStorage(context, "/storage/emulated/0/DCIM/Camera/", true);
-        return MediaStoreUtil.getImagesFromStorage(context, null, true);
+        return MediaStoreUtil.getImagesFromStorage(context, "/storage/emulated/0/DCIM/Camera/", true);
+        //return MediaStoreUtil.getImagesFromStorage(context, null, true);
     }
 
     private List<ItemBean> convertDateSortData(List<ImageDateSortBean> imageDateSortBeans) {
@@ -54,5 +63,15 @@ public class MediaModel {
             itemBeans.add(storageImageContentItemBean);
         }
         return itemBeans;
+    }
+
+    private void convertSourceData(List<ImageDateSortBean> imageDateSortBeans) {
+        sourceData = new ArrayList<>();
+        for (ImageDateSortBean imageDateSortBean : imageDateSortBeans) {
+            List<ImageBean> imageBeans = imageDateSortBean.getImageBeans();
+            for (ImageBean imageBean : imageBeans) {
+                sourceData.add(imageBean.getPath());
+            }
+        }
     }
 }

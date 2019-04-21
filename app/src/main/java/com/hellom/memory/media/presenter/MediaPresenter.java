@@ -30,4 +30,14 @@ public class MediaPresenter implements MediaContract.Presenter {
     public List<ItemBean> getDateSortItems() {
         return mediaModel.getDateSortItems(mediaImageFragment.getActivity());
     }
+
+    @Override
+    public void startPreview() {
+
+    }
+
+    @Override
+    public List<String> getSourceData() {
+        return mediaModel.getSourceData();
+    }
 }
