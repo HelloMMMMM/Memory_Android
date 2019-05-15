@@ -4,4 +4,24 @@
     <string name="media_image_description">媒体图片</string>
 
     <string name="permission_denied">请授予必需的权限!</string>
+
+    <!--home activity-->
+    <string name="ac_home_tab_photo">照片</string>
+    <string name="ac_home_tab_album">相册</string>
+
+    <!--albums fragment-->
+    <string name="fg_album_intelligent_album">智能相册</string>
+    <string name="fg_album_intelligent_album_person">人物</string>
+    <string name="fg_album_intelligent_album_thing">事物</string>
+    <string name="fg_album_intelligent_album_location">地点</string>
+
+    <string name="fg_album_sort_album">分类相册</string>
+    <string name="fg_album_personal_album">个人相册</string>
+    <string name="fg_album_photo_total">%1$d张照片</string>
+
+    <!--home bottom nav-->
+    <string name="ac_home_bottom_nav_photos">照片</string>
+    <string name="ac_home_bottom_nav_albums">相册</string>
+    <string name="ac_home_bottom_nav_discover">探索</string>
+    <string name="ac_home_bottom_nav_mine">我的</string>
 </resources>

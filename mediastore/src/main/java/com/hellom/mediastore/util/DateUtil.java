@@ -1,6 +1,7 @@
 package com.hellom.mediastore.util;
 
 import android.content.Context;
+
 import com.hellom.mediastore.R;
 
 import java.text.SimpleDateFormat;
@@ -15,12 +16,25 @@ public class DateUtil {
     }
 
     /**
-     * 根据时间戳返回日期字符串，自定义逻辑
+     * 由于MediaStore时间戳只到秒级，所以转换为毫秒级
+     *
+     * @param timeMillis 时间戳
+     * @return 毫秒级时间戳
+     */
+    public static long convertMs(long timeMillis) {
+        return timeMillis * 1000;
+    }
+
+    /**
+     * 根据时间戳返回日期字符串，默认常见逻辑
+     * 1.无法取得日期，设置未知日期
+     * 2.今天或者昨天的判断
+     * 3.是否为今年的判断
      *
      * @param timeMillis 时间戳
      * @return 日期字符串
      */
-    public static String getCustomDate(Context context, long timeMillis) {
+    public static String getDefaultDate(Context context, long timeMillis) {
         String target;
         if (isUnknownTime(timeMillis)) {
             target = unknownTime(timeMillis);

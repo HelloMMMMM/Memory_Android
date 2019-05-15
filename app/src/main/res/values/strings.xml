@@ -3,9 +3,25 @@
 
     <string name="media_image_description">media image</string>
 
-    <string name="permission_denied">Please granted permissions</string>
+    <string name="permission_denied">Please granted permissions!</string>
 
     <!--home activity-->
-    <string name="ac_home_tab_photo">Photo</string>
-    <string name="ac_home_tab_album">Album</string>
+    <string name="ac_home_tab_photo">Photos</string>
+    <string name="ac_home_tab_album">Albums</string>
+
+    <!--albums fragment-->
+    <string name="fg_album_intelligent_album">Intelligent Albums</string>
+    <string name="fg_album_intelligent_album_person">Person</string>
+    <string name="fg_album_intelligent_album_thing">Thing</string>
+    <string name="fg_album_intelligent_album_location">Location</string>
+
+    <string name="fg_album_sort_album">Sort Albums</string>
+    <string name="fg_album_personal_album">Personal Albums</string>
+    <string name="fg_album_photo_total">%1$d Pics</string>
+
+    <!--home bottom nav-->
+    <string name="ac_home_bottom_nav_photos">照片</string>
+    <string name="ac_home_bottom_nav_albums">相册</string>
+    <string name="ac_home_bottom_nav_discover">探索</string>
+    <string name="ac_home_bottom_nav_mine">我的</string>
 </resources>

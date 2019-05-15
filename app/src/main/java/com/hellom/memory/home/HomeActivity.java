@@ -1,50 +1,119 @@
 package com.hellom.memory.home;
 
+import android.view.View;
+import android.view.ViewGroup;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.hellom.memory.R;
+import com.hellom.memory.album.AlbumFragment;
 import com.hellom.memory.base.BaseActivity;
-import com.hellom.memory.media.view.MediaImageFragment;
+import com.hellom.memory.photo.view.PhotoFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
+    private final int TAB_PHOTO = 1;
+    private final int TAB_ALBUM = 2;
+    private final int TAB_DISCOVER = 3;
+    private final int TAB_MINE = 4;
 
-public class HomeActivity extends BaseActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewGroup photoTab, albumTab, discoverTab, mineTab;
+    private ViewGroup currentTab;
+    private Fragment photoFragment, albumFragment;
+
+    @Override
+    public void initComponent() {
+
+    }
 
     @Override
     public void initView() {
-        tabLayout = findViewById(R.id.tab_layout);
-        viewPager = findViewById(R.id.view_pager);
+        photoTab = findViewById(R.id.tab_photos);
+        albumTab = findViewById(R.id.tab_albums);
+        discoverTab = findViewById(R.id.tab_discover);
+        mineTab = findViewById(R.id.tab_mine);
     }
 
     @Override
     public void initListener() {
-
+        photoTab.setOnClickListener(this);
+        albumTab.setOnClickListener(this);
+        discoverTab.setOnClickListener(this);
+        mineTab.setOnClickListener(this);
     }
 
     @Override
     public void initData() {
-        List<String> tabs = new ArrayList<>(2);
-        tabs.add(getString(R.string.ac_home_tab_photo));
-        tabs.add(getString(R.string.ac_home_tab_album));
-
-        List<Fragment> fragments = new ArrayList<>(2);
-        fragments.add(MediaImageFragment.newInstance());
-        fragments.add(MediaImageFragment.newInstance());
-        FragmentPagerAdapter fragmentPagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(), tabs, fragments);
-        viewPager.setAdapter(fragmentPagerAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
+        switchTab(photoTab, TAB_PHOTO);
     }
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_home;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tab_photos:
+                switchTab(photoTab, TAB_PHOTO);
+                break;
+            case R.id.tab_albums:
+                switchTab(albumTab, TAB_ALBUM);
+                break;
+            case R.id.tab_discover:
+                switchTab(discoverTab, TAB_DISCOVER);
+                break;
+            case R.id.tab_mine:
+                switchTab(mineTab, TAB_MINE);
+                break;
+            default:
+                //do nothing
+                break;
+        }
+    }
+
+    private void switchTab(ViewGroup tab, int tabIndex) {
+        if (tab != null && !tab.equals(currentTab)) {
+            setTabSelectedOrReset(currentTab, false);
+            setTabSelectedOrReset(tab, true);
+            setFragmentWhenSelected(tabIndex);
+        }
+    }
+
+    private void setTabSelectedOrReset(ViewGroup tab, boolean isSelected) {
+        if (tab != null) {
+            if (isSelected) {
+                currentTab = tab;
+            }
+            tab.getChildAt(0).setSelected(isSelected);
+            tab.getChildAt(1).setSelected(isSelected);
+        }
+    }
+
+    private void setFragmentWhenSelected(int tabIndex) {
+        Fragment currentFragment = null;
+        switch (tabIndex) {
+            case TAB_PHOTO:
+                currentFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
+                break;
+            case TAB_ALBUM:
+                currentFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
+                break;
+            case TAB_DISCOVER:
+                break;
+            case TAB_MINE:
+                break;
+            default:
+                //do nothing
+                break;
+        }
+        if (currentFragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, currentFragment);
+            fragmentTransaction.commit();
+        }
     }
 }
