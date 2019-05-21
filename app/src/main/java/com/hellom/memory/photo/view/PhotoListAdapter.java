@@ -35,7 +35,7 @@ public class PhotoListAdapter extends BaseMultiItemQuickAdapter<ItemBean, BaseVi
             case ItemBean.ITEM_TYPE_CONTENT:
                 ImageView image = helper.getView(R.id.iv_photo);
                 ContentItemBean contentItemBean = (ContentItemBean) item;
-                GlideUtil.loadCenterCorpImage(mContext, contentItemBean.getPath(), image);
+                GlideUtil.loadCenterCorpImage(mContext, contentItemBean.getUri(), image);
                 helper.addOnClickListener(R.id.iv_photo);
                 break;
             default:

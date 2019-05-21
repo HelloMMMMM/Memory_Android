@@ -99,7 +99,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 currentFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
                 break;
             case TAB_ALBUM:
-                currentFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
+                //currentFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
                 break;
             case TAB_DISCOVER:
                 break;

@@ -19,6 +19,8 @@ import com.hellom.memory.photo.model.ItemBean;
 import com.hellom.memory.photo.presenter.PhotoPresenter;
 import com.hellom.memory.preview.PreviewActivity;
 
+import java.util.ArrayList;
+
 
 public class PhotoFragment extends BaseFragment implements PhotoContract.View {
 
@@ -66,7 +68,9 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
                         if (activity != null) {
                             ContentItemBean contentItemBean = (ContentItemBean) adapter.getData().get(position);
                             Intent intent = new Intent(activity, PreviewActivity.class);
-                            intent.putExtra("path", contentItemBean.getPath());
+                            intent.putStringArrayListExtra("srcPaths", (ArrayList<String>) photoPresenter.getSourceData());
+                            intent.putExtra("index", contentItemBean.getIndex());
+                            //intent.putExtra("path", contentItemBean.getPath());
                             startActivity(intent);
                         }
                         break;
@@ -80,7 +84,6 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
 
     @Override
     public void initData() {
-        //imageListAdapter.setNewData(photoPresenter.getItems());
         photoListAdapter.setNewData(photoPresenter.getDateSortItems());
     }
 

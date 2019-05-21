@@ -12,7 +12,7 @@ public class DateItemBean extends ItemBean {
         return date;
     }
 
-    public void setDate(String date) {
+    void setDate(String date) {
         this.date = date;
     }
 

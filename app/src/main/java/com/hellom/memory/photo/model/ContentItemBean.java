@@ -5,14 +5,27 @@ package com.hellom.memory.photo.model;
  * email:1694327880@qq.com
  */
 public class ContentItemBean extends ItemBean {
-    private String path;
+    /**
+     * 在资源列表中的位置索引
+     */
+    private int index;
 
-    public String getPath() {
-        return path;
+    private String uri;
+
+    public int getIndex() {
+        return index;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    void setUri(String uri) {
+        this.uri = uri;
     }
 
     @Override

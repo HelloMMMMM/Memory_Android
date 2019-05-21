@@ -1,6 +1,5 @@
 package com.hellom.memory.base;
 
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -26,7 +26,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initBase() {
         //只支持竖屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ScreenUtils.setPortrait(this);
+        //状态栏设置
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             //6.0以下，亮暗模式不支持，状态栏颜色一直为白色，只有设置背景
             BarUtils.setStatusBarColor(this, Color.BLACK);

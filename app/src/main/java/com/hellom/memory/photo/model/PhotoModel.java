@@ -20,7 +20,7 @@ public class PhotoModel {
 
     public List<ItemBean> getDateSortItems(Context context) {
         List<ImageDateSortBean> imageDateSortBeans = getDateSortImages(context);
-        convertSourceData(imageDateSortBeans);
+        //convertSourceData(imageDateSortBeans);
         return convertDateSortData(imageDateSortBeans);
     }
 
@@ -39,28 +39,34 @@ public class PhotoModel {
     }
 
     private List<ItemBean> convertDateSortData(List<ImageDateSortBean> imageDateSortBeans) {
+        sourceData = new ArrayList<>();
         List<ItemBean> itemBeans = new ArrayList<>();
         for (ImageDateSortBean imageDateSortBean : imageDateSortBeans) {
-            DateItemBean storageImageDateItemBean = new DateItemBean();
-            storageImageDateItemBean.setDate(imageDateSortBean.getDate());
-            itemBeans.add(storageImageDateItemBean);
+            DateItemBean dateItemBean = new DateItemBean();
+            dateItemBean.setDate(imageDateSortBean.getDate());
+            itemBeans.add(dateItemBean);
 
             List<ImageBean> imageBeans = imageDateSortBean.getImageBeans();
             for (ImageBean imageBean : imageBeans) {
-                ContentItemBean storageImageContentItemBean = new ContentItemBean();
-                storageImageContentItemBean.setPath(imageBean.getPath());
-                itemBeans.add(storageImageContentItemBean);
+                ContentItemBean contentItemBean = new ContentItemBean();
+                contentItemBean.setIndex(sourceData.size());
+                contentItemBean.setUri(imageBean.getPath());
+                itemBeans.add(contentItemBean);
+                sourceData.add(imageBean.getPath());
             }
         }
         return itemBeans;
     }
 
     private List<ItemBean> convertData(List<ImageBean> imageBeans) {
+        sourceData = new ArrayList<>();
         List<ItemBean> itemBeans = new ArrayList<>();
         for (ImageBean imageBean : imageBeans) {
-            ContentItemBean storageImageContentItemBean = new ContentItemBean();
-            storageImageContentItemBean.setPath(imageBean.getPath());
-            itemBeans.add(storageImageContentItemBean);
+            ContentItemBean contentItemBean = new ContentItemBean();
+            contentItemBean.setIndex(sourceData.size());
+            contentItemBean.setUri(imageBean.getPath());
+            itemBeans.add(contentItemBean);
+            sourceData.add(imageBean.getPath());
         }
         return itemBeans;
     }
