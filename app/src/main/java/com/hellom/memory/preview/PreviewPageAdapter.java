@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
@@ -22,6 +21,12 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
     private int cacheSize = DEFAULT_CACHE_VIEWS_TOTAL;
     private List<View> cachePages;
 
+    private OnItemClickListener onItemClickListener;
+
+    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     PreviewPageAdapter(Context context, List<String> srcUris) {
         this.context = context;
         this.srcUris = srcUris;
@@ -35,9 +40,14 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
         initCachePages();
     }
 
+    void setSrcUris(List<String> srcUris) {
+        this.srcUris = srcUris;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return srcUris.size();
+        return srcUris == null ? 0 : srcUris.size();
     }
 
     @Override
@@ -76,6 +86,12 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        LogUtils.e("click this image");
+        if (onItemClickListener != null) {
+            onItemClickListener.onItemClick();
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick();
     }
 }

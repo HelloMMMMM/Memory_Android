@@ -1,27 +1,17 @@
 package com.hellom.memory.preview;
 
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.ScreenUtils;
 import com.blankj.utilcode.util.SizeUtils;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
-import com.hellom.memory.component.LinearSpaceItemDecoration;
 
 import java.util.List;
 
@@ -54,6 +44,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         previewPages = findViewById(R.id.preview_pages);
         previewPages.setPageMargin(SizeUtils.dp2px(12));
         previewPages.setOffscreenPageLimit(2);
+        previewPageAdapter = new PreviewPageAdapter(this, null, previewPages.getOffscreenPageLimit());
+        previewPages.setAdapter(previewPageAdapter);
     }
 
     @Override
@@ -79,14 +71,19 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+        previewPageAdapter.setOnItemClickListener(new PreviewPageAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick() {
+                setBarVisibleOrGone();
+            }
+        });
     }
 
     @Override
     public void initData() {
-        List<String> srcPaths = getIntent().getStringArrayListExtra("srcPaths");
+        List<String> srcUris = getIntent().getStringArrayListExtra("srcPaths");
         int index = getIntent().getIntExtra("index", 0);
-        previewPageAdapter = new PreviewPageAdapter(this, srcPaths, previewPages.getOffscreenPageLimit());
-        previewPages.setAdapter(previewPageAdapter);
+        previewPageAdapter.setSrcUris(srcUris);
         previewPages.setCurrentItem(index, false);
     }
 
@@ -113,5 +110,39 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 //do nothing
                 break;
         }
+    }
+
+    private void setBarVisibleOrGone() {
+        final boolean visable = !(bottomBar.getVisibility() == View.VISIBLE);
+        Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if (visable) {
+                    topBar.setVisibility(View.VISIBLE);
+                    bottomBar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (!visable) {
+                    topBar.setVisibility(View.GONE);
+                    bottomBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        };
+        Animation topAnimation = visable ? AnimationUtils.loadAnimation(this, R.anim.anim_preview_top_enter)
+                : AnimationUtils.loadAnimation(this, R.anim.anim_preview_top_exit);
+        Animation bottomAnimation = visable ? AnimationUtils.loadAnimation(this, R.anim.anim_preview_bottom_enter)
+                : AnimationUtils.loadAnimation(this, R.anim.anim_preview_bottom_exit);
+        topAnimation.setAnimationListener(animationListener);
+        bottomAnimation.setAnimationListener(animationListener);
+        topBar.startAnimation(topAnimation);
+        bottomBar.startAnimation(bottomAnimation);
     }
 }
