@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             //6.0及以上可直接使用亮暗模式
             BarUtils.setStatusBarLightMode(this, true);
+            BarUtils.setStatusBarColor(this, Color.TRANSPARENT);
         }
     }
 

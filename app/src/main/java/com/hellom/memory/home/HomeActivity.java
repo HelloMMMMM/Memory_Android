@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.blankj.utilcode.util.BarUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.album.AlbumFragment;
 import com.hellom.memory.base.BaseActivity;
@@ -21,10 +22,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private ViewGroup photoTab, albumTab, discoverTab, mineTab;
     private ViewGroup currentTab;
     private Fragment photoFragment, albumFragment;
+    private Fragment currentFragment;
 
     @Override
     public void initComponent() {
-
+        BarUtils.addMarginTopEqualStatusBarHeight(findViewById(R.id.fragment_container));
     }
 
     @Override
@@ -93,13 +95,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void setFragmentWhenSelected(int tabIndex) {
-        Fragment currentFragment = null;
+        Fragment tempFragment = null;
         switch (tabIndex) {
             case TAB_PHOTO:
-                currentFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
+                tempFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
                 break;
             case TAB_ALBUM:
-                //currentFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
+                //tempFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
                 break;
             case TAB_DISCOVER:
                 break;
@@ -109,11 +111,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 //do nothing
                 break;
         }
-        if (currentFragment != null) {
+        if (tempFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, currentFragment);
+            if (currentFragment != null) {
+                fragmentTransaction.hide(currentFragment);
+            }
+            if (tempFragment.isAdded()) {
+                fragmentTransaction.show(tempFragment);
+            } else {
+                fragmentTransaction.add(R.id.fragment_container, tempFragment);
+            }
             fragmentTransaction.commit();
+            currentFragment = tempFragment;
         }
     }
 }
