@@ -1,13 +1,11 @@
 package com.hellom.memory.home;
 
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.FragmentUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.album.AlbumFragment;
@@ -24,10 +22,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private ViewGroup currentTab;
     private Fragment photoFragment, albumFragment;
     private Fragment currentFragment;
-
-    @Override
-    public void initComponent() {
-    }
 
     @Override
     public void initView() {

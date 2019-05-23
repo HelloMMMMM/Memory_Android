@@ -25,24 +25,12 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     private View topBar, bottomBar;
 
-    @Override
-    public void initComponent() {
-        setStatusBar();
-    }
-
-    private void setStatusBar() {
-        //预览界面特殊处理
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            BarUtils.setStatusBarLightMode(this, false);
-            BarUtils.setStatusBarColor(this, Color.BLACK);
-        }
-    }
 
     @Override
     public void initView() {
         topBar = findViewById(R.id.preview_top_bar);
+        settingAboutStatusBar();
         bottomBar = findViewById(R.id.preview_bottom_bar);
-
         previewPages = findViewById(R.id.preview_pages);
         previewPages.setPageMargin(SizeUtils.dp2px(12));
         previewPages.setOffscreenPageLimit(2);
@@ -115,8 +103,19 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void settingAboutStatusBar() {
+        //预览界面特殊处理(状态栏透明，图片可全屏预览,topbar向下偏移)
+        BarUtils.setStatusBarColor(this, Color.TRANSPARENT);
+        subMarginTopEqualStatusBarHeightForContent();
+        BarUtils.addMarginTopEqualStatusBarHeight(topBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //6.0以上状态栏改为暗模式
+            BarUtils.setStatusBarLightMode(this, false);
+        }
+    }
+
     private void setBarVisibleOrGone() {
-        final boolean visable = !(bottomBar.getVisibility() == View.VISIBLE);
+        final boolean visable = !(topBar.getVisibility() == View.VISIBLE);
         Animation.AnimationListener animationListener = new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -144,16 +143,16 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         Animation bottomAnimation = visable ? AnimationUtils.loadAnimation(this, R.anim.anim_preview_bottom_enter)
                 : AnimationUtils.loadAnimation(this, R.anim.anim_preview_bottom_exit);
         topAnimation.setAnimationListener(animationListener);
-        bottomAnimation.setAnimationListener(animationListener);
         topBar.startAnimation(topAnimation);
         bottomBar.startAnimation(bottomAnimation);
+        setStatusBarVisibility(visable);
     }
 
     private void setWallpaper() {
-        String uri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
+        String imageUri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
         try {
-            wallpaperManager.setStream(new FileInputStream(uri));
+            wallpaperManager.setStream(new FileInputStream(imageUri));
         } catch (IOException e) {
             e.printStackTrace();
         }
