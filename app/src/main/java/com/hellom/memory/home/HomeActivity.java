@@ -1,13 +1,14 @@
 package com.hellom.memory.home;
 
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.FragmentUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.album.AlbumFragment;
 import com.hellom.memory.base.BaseActivity;
@@ -26,7 +27,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void initComponent() {
-        BarUtils.addMarginTopEqualStatusBarHeight(findViewById(R.id.fragment_container));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 tempFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
                 break;
             case TAB_ALBUM:
-                //tempFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
+                tempFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
                 break;
             case TAB_DISCOVER:
                 break;
@@ -113,16 +113,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
         if (tempFragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             if (currentFragment != null) {
-                fragmentTransaction.hide(currentFragment);
+                FragmentUtils.hide(currentFragment);
             }
             if (tempFragment.isAdded()) {
-                fragmentTransaction.show(tempFragment);
+                FragmentUtils.show(tempFragment);
             } else {
-                fragmentTransaction.add(R.id.fragment_container, tempFragment);
+                FragmentUtils.add(fragmentManager, tempFragment, R.id.fragment_container);
             }
-            fragmentTransaction.commit();
             currentFragment = tempFragment;
         }
     }

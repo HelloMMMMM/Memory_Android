@@ -1,5 +1,6 @@
 package com.hellom.memory.preview;
 
+import android.app.WallpaperManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
@@ -9,10 +10,13 @@ import android.view.animation.AnimationUtils;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class PreviewActivity extends BaseActivity implements View.OnClickListener {
@@ -28,21 +32,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     private void setStatusBar() {
         //预览界面特殊处理
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            //6.0以下，亮暗模式不支持，状态栏颜色一直为白色，只有设置背景
-            BarUtils.setStatusBarColor(this, Color.BLACK);
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             BarUtils.setStatusBarLightMode(this, false);
-            BarUtils.setStatusBarColor(this, Color.TRANSPARENT);
+            BarUtils.setStatusBarColor(this, Color.BLACK);
         }
     }
 
     @Override
     public void initView() {
         topBar = findViewById(R.id.preview_top_bar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            BarUtils.addMarginTopEqualStatusBarHeight(topBar);
-        }
         bottomBar = findViewById(R.id.preview_bottom_bar);
 
         previewPages = findViewById(R.id.preview_pages);
@@ -107,6 +105,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             case R.id.iv_menu:
                 break;
             case R.id.iv_set_wallpaper:
+                setWallpaper();
                 break;
             case R.id.iv_delete:
                 break;
@@ -148,6 +147,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         bottomAnimation.setAnimationListener(animationListener);
         topBar.startAnimation(topAnimation);
         bottomBar.startAnimation(bottomAnimation);
-        BarUtils.setStatusBarVisibility(this, visable);
+    }
+
+    private void setWallpaper() {
+        String uri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        try {
+            wallpaperManager.setStream(new FileInputStream(uri));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

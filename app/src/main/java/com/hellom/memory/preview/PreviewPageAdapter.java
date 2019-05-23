@@ -94,4 +94,8 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
     public interface OnItemClickListener {
         void onItemClick();
     }
+
+    public String getCurrentItemData(int position) {
+        return srcUris.get(position);
+    }
 }
