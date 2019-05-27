@@ -1,5 +1,7 @@
 package com.hellom.memory.base;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,20 @@ public abstract class BaseFragment extends Fragment {
         initListener();
         initData();
         return layout;
+    }
+
+    protected void jump(Class target, Bundle bundle, boolean needFinish) {
+        Activity activity = getActivity();
+        if (activity != null) {
+            Intent intent = new Intent(activity, target);
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
+            startActivity(intent);
+            if (needFinish) {
+                activity.finish();
+            }
+        }
     }
 
     public abstract void initComponent();

@@ -62,17 +62,13 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
         photoListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ContentItemBean contentItemBean = (ContentItemBean) adapter.getData().get(position);
                 switch (view.getId()) {
                     case R.id.iv_photo:
-                        FragmentActivity activity = getActivity();
-                        if (activity != null) {
-                            ContentItemBean contentItemBean = (ContentItemBean) adapter.getData().get(position);
-                            Intent intent = new Intent(activity, PreviewActivity.class);
-                            intent.putStringArrayListExtra("srcPaths", (ArrayList<String>) photoPresenter.getSourceData());
-                            intent.putExtra("index", contentItemBean.getIndex());
-                            //intent.putExtra("path", contentItemBean.getPath());
-                            startActivity(intent);
-                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putStringArrayList("uris", (ArrayList<String>) photoPresenter.getSourceData());
+                        bundle.putInt("index", contentItemBean.getIndex());
+                        jump(PreviewActivity.class, bundle, false);
                         break;
                     default:
                         //do nothing

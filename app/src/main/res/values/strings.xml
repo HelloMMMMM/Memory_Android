@@ -24,4 +24,8 @@
     <string name="ac_home_bottom_nav_albums">相册</string>
     <string name="ac_home_bottom_nav_discover">探索</string>
     <string name="ac_home_bottom_nav_mine">我的</string>
+
+    <!--壁纸预览-->
+    <string name="wallpaper_preview_rotate">向右旋转</string>
+    <string name="wallpaper_preview_set_wallpaper">设为壁纸</string>
 </resources>

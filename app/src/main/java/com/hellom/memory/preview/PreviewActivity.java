@@ -3,6 +3,7 @@ package com.hellom.memory.preview;
 import android.app.WallpaperManager;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,6 +15,7 @@ import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
+import com.hellom.memory.wallpaper.WallPaperActivity;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -71,7 +73,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void initData() {
-        List<String> srcUris = getIntent().getStringArrayListExtra("srcPaths");
+        List<String> srcUris = getIntent().getStringArrayListExtra("uris");
         int index = getIntent().getIntExtra("index", 0);
         previewPageAdapter.setSrcUris(srcUris);
         previewPages.setCurrentItem(index, false);
@@ -149,12 +151,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void setWallpaper() {
-        String imageUri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
+        Bundle bundle = new Bundle();
+        bundle.putString("uri", previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()));
+        jump(WallPaperActivity.class, bundle, false);
+        /*String imageUri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
         try {
             wallpaperManager.setStream(new FileInputStream(imageUri));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".preview.PreviewActivity" />
+        <activity android:name=".wallpaper.WallPaperActivity" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.hellom.memory.base;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -74,6 +75,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void jump(Class target, Bundle bundle, boolean needFinish) {
+        Intent intent = new Intent(this, target);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+        if (needFinish) {
+            finish();
+        }
+    }
 
     public abstract void initView();
 
