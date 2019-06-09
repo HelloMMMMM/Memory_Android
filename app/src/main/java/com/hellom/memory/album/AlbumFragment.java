@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hellom.mediastore.util.mediastore.MediaStoreUtil;
 import com.hellom.mediastore.util.mediastore.bean.AlbumBean;
-import com.hellom.memory.CustomScrollSpeedLinearLayoutManager;
+import com.hellom.memory.common.CustomScrollSpeedLinearLayoutManager;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseFragment;
 

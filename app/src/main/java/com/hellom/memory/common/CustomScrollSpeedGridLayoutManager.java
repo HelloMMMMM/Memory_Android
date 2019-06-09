@@ -1,28 +1,29 @@
-package com.hellom.memory;
+package com.hellom.memory.common;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CustomScrollSpeedLinearLayoutManager extends LinearLayoutManager {
-    private double scrollSpeedRatio = 0.6d;
+public class CustomScrollSpeedGridLayoutManager extends GridLayoutManager {
+
+    private double scrollSpeedRatio = 0.7d;
+
+    public CustomScrollSpeedGridLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    public CustomScrollSpeedGridLayoutManager(Context context, int spanCount) {
+        super(context, spanCount);
+    }
+
+    public CustomScrollSpeedGridLayoutManager(Context context, int spanCount, int orientation, boolean reverseLayout) {
+        super(context, spanCount, orientation, reverseLayout);
+    }
 
     public void setScrollSpeedRatio(double scrollSpeedRatio) {
         this.scrollSpeedRatio = scrollSpeedRatio;
-    }
-
-    public CustomScrollSpeedLinearLayoutManager(Context context) {
-        super(context);
-    }
-
-    public CustomScrollSpeedLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
-        super(context, orientation, reverseLayout);
-    }
-
-    public CustomScrollSpeedLinearLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override

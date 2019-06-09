@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Nullable
     @Override
@@ -23,6 +23,14 @@ public abstract class BaseFragment extends Fragment {
         initData();
         return layout;
     }
+
+    public abstract void initView(View layout);
+
+    public abstract void initListener();
+
+    public abstract void initData();
+
+    public abstract int getLayoutId();
 
     protected void jump(Class target, Bundle bundle, boolean needFinish) {
         Activity activity = getActivity();
@@ -37,14 +45,4 @@ public abstract class BaseFragment extends Fragment {
             }
         }
     }
-
-    public abstract void initComponent();
-
-    public abstract void initView(View layout);
-
-    public abstract void initListener();
-
-    public abstract void initData();
-
-    public abstract int getLayoutId();
 }

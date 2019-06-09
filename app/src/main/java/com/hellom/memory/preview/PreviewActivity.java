@@ -11,11 +11,19 @@ import android.view.animation.AnimationUtils;
 import androidx.viewpager.widget.ViewPager;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.BusUtils;
 import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
+import com.hellom.memory.dialog.DialogFactory;
+import com.hellom.memory.dialog.TipDialogFragment;
+import com.hellom.memory.eventbus.DeletePhotoEvent;
+import com.hellom.memory.photo.model.ContentItemBean;
 import com.hellom.memory.wallpaper.WallPaperActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,6 +35,10 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     private View topBar, bottomBar;
 
+    @Override
+    public void initComponent() {
+
+    }
 
     @Override
     public void initView() {
@@ -73,10 +85,10 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void initData() {
-        List<String> srcUris = getIntent().getStringArrayListExtra("uris");
-        int index = getIntent().getIntExtra("index", 0);
-        previewPageAdapter.setSrcUris(srcUris);
-        previewPages.setCurrentItem(index, false);
+        List<ContentItemBean> contents = getIntent().getParcelableArrayListExtra("contents");
+        int currentIndex = getIntent().getIntExtra("currentIndex", 0);
+        previewPageAdapter.setSrcUris(contents);
+        previewPages.setCurrentItem(currentIndex, false);
     }
 
     @Override
@@ -91,6 +103,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 finish();
                 break;
             case R.id.iv_photo_info:
+                showPhotoInfoDialog();
                 break;
             case R.id.iv_menu:
                 break;
@@ -98,6 +111,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 setWallpaper();
                 break;
             case R.id.iv_delete:
+                showDeleteTip();
                 break;
             default:
                 //do nothing
@@ -150,9 +164,15 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         setStatusBarVisibility(visable);
     }
 
+    private void showPhotoInfoDialog() {
+        DialogFactory.createPhotoInfoDialog(getSupportFragmentManager(),
+                previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()));
+    }
+
     private void setWallpaper() {
         Bundle bundle = new Bundle();
-        bundle.putString("uri", previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()));
+        bundle.putString("uri",
+                previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()).getUri());
         jump(WallPaperActivity.class, bundle, false);
         /*String imageUri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
         WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
@@ -161,5 +181,27 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+    }
+
+    private void showDeleteTip() {
+        DialogFactory.createTipDialog(getSupportFragmentManager(),
+                getString(R.string.delete_photo_tip_content), new TipDialogFragment.Callback() {
+                    @Override
+                    public void cancel() {
+
+                    }
+
+                    @Override
+                    public void sure() {
+                        deletePhoto();
+                    }
+                });
+    }
+
+    private void deletePhoto() {
+        //FileUtils.delete(previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()).getUri());
+        ContentItemBean contentItemBean = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
+        previewPageAdapter.deleteCurrentItemData(previewPages.getCurrentItem());
+        EventBus.getDefault().post(new DeletePhotoEvent(contentItemBean.getUri()));
     }
 }

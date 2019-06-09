@@ -28,4 +28,20 @@
     <!--壁纸预览-->
     <string name="wallpaper_preview_rotate">向右旋转</string>
     <string name="wallpaper_preview_set_wallpaper">设为壁纸</string>
+
+    <!--照片信息弹窗-->
+    <string name="dialog_photo_info_title">照片信息</string>
+    <string name="dialog_photo_info_date">时间</string>
+    <string name="dialog_photo_info_type">类型</string>
+    <string name="dialog_photo_info_dimensions">尺寸</string>
+    <string name="dialog_photo_info_size">大小</string>
+    <string name="dialog_photo_info_path">路径</string>
+    <string name="dialog_photo_info_dimensions_format">%1$d&#160;x&#160;%2$d</string>
+
+    <!--提示弹窗-->
+    <string name="dialog_tip_sure">确定</string>
+    <string name="dialog_tip_cancel">取消</string>
+
+    <!--删除图片弹窗-->
+    <string name="delete_photo_tip_content">确定删除此照片吗？删除后不可恢复。</string>
 </resources>

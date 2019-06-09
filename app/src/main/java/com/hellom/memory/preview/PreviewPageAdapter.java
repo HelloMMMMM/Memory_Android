@@ -9,13 +9,14 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.hellom.memory.photo.model.ContentItemBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PreviewPageAdapter extends PagerAdapter implements View.OnClickListener {
     private Context context;
-    private List<String> srcUris;
+    private List<ContentItemBean> srcUris;
 
     private static final int DEFAULT_CACHE_VIEWS_TOTAL = 3;
     private int cacheSize = DEFAULT_CACHE_VIEWS_TOTAL;
@@ -27,20 +28,20 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
         this.onItemClickListener = onItemClickListener;
     }
 
-    PreviewPageAdapter(Context context, List<String> srcUris) {
+    PreviewPageAdapter(Context context, List<ContentItemBean> srcUris) {
         this.context = context;
         this.srcUris = srcUris;
         initCachePages();
     }
 
-    PreviewPageAdapter(Context context, List<String> srcUris, int pageOffsetLimit) {
+    PreviewPageAdapter(Context context, List<ContentItemBean> srcUris, int pageOffsetLimit) {
         this.context = context;
         this.srcUris = srcUris;
         this.cacheSize = pageOffsetLimit * 2 + 1;
         initCachePages();
     }
 
-    void setSrcUris(List<String> srcUris) {
+    void setSrcUris(List<ContentItemBean> srcUris) {
         this.srcUris = srcUris;
         notifyDataSetChanged();
     }
@@ -65,6 +66,11 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return POSITION_NONE;
+    }
+
     private void initCachePages() {
         cachePages = new ArrayList<>(cacheSize);
         for (int i = 0; i < cacheSize; i++) {
@@ -79,7 +85,7 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
     private View initPage(ViewGroup container, int position) {
         SubsamplingScaleImageView page = (SubsamplingScaleImageView) cachePages.get(position % cacheSize);
         container.removeView(page);
-        page.setImage(ImageSource.uri(srcUris.get(position)));
+        page.setImage(ImageSource.uri(srcUris.get(position).getUri()));
         container.addView(page);
         return page;
     }
@@ -95,7 +101,12 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
         void onItemClick();
     }
 
-    public String getCurrentItemData(int position) {
+    ContentItemBean getCurrentItemData(int position) {
         return srcUris.get(position);
+    }
+
+    void deleteCurrentItemData(int position) {
+        srcUris.remove(position);
+        notifyDataSetChanged();
     }
 }

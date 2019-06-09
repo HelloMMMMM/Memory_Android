@@ -1,34 +1,38 @@
 package com.hellom.memory.photo.view;
 
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hellom.memory.CustomScrollSpeedGridLayoutManager;
+import com.hellom.memory.common.CustomScrollSpeedGridLayoutManager;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseFragment;
+import com.hellom.memory.eventbus.BaseEvent;
+import com.hellom.memory.eventbus.DeletePhotoEvent;
 import com.hellom.memory.photo.PhotoContract;
 import com.hellom.memory.photo.model.ContentItemBean;
 import com.hellom.memory.photo.model.ItemBean;
 import com.hellom.memory.photo.presenter.PhotoPresenter;
 import com.hellom.memory.preview.PreviewActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class PhotoFragment extends BaseFragment implements PhotoContract.View {
 
-    private PhotoListAdapter photoListAdapter;
-
     private PhotoPresenter photoPresenter;
-
-    private RecyclerView photoList;
+    private PhotoListAdapter photoListAdapter;
 
     public static PhotoFragment newInstance() {
         Bundle args = new Bundle();
@@ -44,7 +48,7 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
 
     @Override
     public void initView(View layout) {
-        photoList = layout.findViewById(R.id.photo_list);
+        RecyclerView photoList = layout.findViewById(R.id.photo_list);
         GridLayoutManager mGridLayoutManager = new CustomScrollSpeedGridLayoutManager(getActivity(), ItemBean.MAX_SPAN_SIZE);
         photoList.setLayoutManager(mGridLayoutManager);
         photoListAdapter = new PhotoListAdapter(null);
@@ -65,10 +69,7 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
                 ContentItemBean contentItemBean = (ContentItemBean) adapter.getData().get(position);
                 switch (view.getId()) {
                     case R.id.iv_photo:
-                        Bundle bundle = new Bundle();
-                        bundle.putStringArrayList("uris", (ArrayList<String>) photoPresenter.getSourceData());
-                        bundle.putInt("index", contentItemBean.getIndex());
-                        jump(PreviewActivity.class, bundle, false);
+                        startPreview(photoPresenter.getSourceData(), photoPresenter.getIndexInSourceData(contentItemBean));
                         break;
                     default:
                         //do nothing
@@ -88,4 +89,37 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
         return R.layout.fragment_photo;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(BaseEvent event) {
+        if (event instanceof DeletePhotoEvent) {
+            deletePhoto(event);
+        }
+    }
+
+    private void startPreview(List<ContentItemBean> contents, int currentIndex) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("contents", (ArrayList<? extends Parcelable>) contents);
+        bundle.putInt("currentIndex", currentIndex);
+        jump(PreviewActivity.class, bundle, false);
+    }
+
+    private void deletePhoto(BaseEvent event) {
+        DeletePhotoEvent deletePhotoEvent = (DeletePhotoEvent) event;
+        int listIndex = photoPresenter.deletePhoto(deletePhotoEvent.getUri());
+        if (listIndex != -1) {
+            photoListAdapter.notifyItemRemoved(listIndex);
+        }
+    }
 }

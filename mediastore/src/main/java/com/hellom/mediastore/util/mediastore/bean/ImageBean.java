@@ -8,8 +8,12 @@ public class ImageBean {
     private long id;
     private String date;
     private String path;
-    private String bucketId;
-    private String bucketDisplayName;
+    private String albumId;
+    private String albumName;
+    private int width;
+    private int height;
+    private String size;
+    private String type;
 
     public long getId() {
         return id;
@@ -35,19 +39,51 @@ public class ImageBean {
         this.path = path;
     }
 
-    public String getBucketId() {
-        return bucketId;
+    public String getAlbumId() {
+        return albumId;
     }
 
-    public void setBucketId(String bucketId) {
-        this.bucketId = bucketId;
+    public void setAlbumId(String albumId) {
+        this.albumId = albumId;
     }
 
-    public String getBucketDisplayName() {
-        return bucketDisplayName;
+    public String getAlbumName() {
+        return albumName;
     }
 
-    public void setBucketDisplayName(String bucketDisplayName) {
-        this.bucketDisplayName = bucketDisplayName;
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

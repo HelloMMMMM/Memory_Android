@@ -12,9 +12,11 @@
     <color name="icons">#212121</color>
     <color name="divider_background">#BDBDBD</color>
 
-    <color name="c1">#ffffff</color>
-    <color name="c2">#000000</color>
-    <color name="c3">#BDBDBD</color>
-    <color name="c4">#8a8a8a</color>
-    <color name="c5">#13227a</color>
+    <color name="c_ffffff">#ffffff</color>
+    <color name="c_000000">#000000</color>
+    <color name="c_bdbdbd">#BDBDBD</color>
+    <color name="c_8a8a8a">#8a8a8a</color>
+    <color name="c_13227a">#13227a</color>
+    <color name="c_333333">#333333</color>
+    <color name="c_666666">#666666</color>
 </resources>

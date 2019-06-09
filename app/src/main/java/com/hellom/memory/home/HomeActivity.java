@@ -24,6 +24,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private Fragment currentFragment;
 
     @Override
+    public void initComponent() {
+
+    }
+
+    @Override
     public void initView() {
         photoTab = findViewById(R.id.tab_photos);
         albumTab = findViewById(R.id.tab_albums);
@@ -95,7 +100,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 tempFragment = photoFragment == null ? (photoFragment = PhotoFragment.newInstance()) : photoFragment;
                 break;
             case TAB_ALBUM:
-                tempFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
+                //tempFragment = albumFragment == null ? (albumFragment = AlbumFragment.newInstance()) : albumFragment;
                 break;
             case TAB_DISCOVER:
                 break;

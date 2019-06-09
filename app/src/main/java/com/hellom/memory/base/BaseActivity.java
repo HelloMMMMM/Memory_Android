@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements BaseView {
     /**
      * activity的内容容器
      */
@@ -31,10 +31,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         initBase();
+        initComponent();
         initView();
         initListener();
         initData();
     }
+
+    public abstract void initView();
+
+    public abstract void initListener();
+
+    public abstract void initData();
+
+    public abstract int getLayoutId();
 
     private void initBase() {
         content = ((ViewGroup) getWindow().findViewById(Window.ID_ANDROID_CONTENT)).getChildAt(0);
@@ -85,12 +94,4 @@ public abstract class BaseActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    public abstract void initView();
-
-    public abstract void initListener();
-
-    public abstract void initData();
-
-    public abstract int getLayoutId();
 }

@@ -1,6 +1,7 @@
 package com.hellom.memory.photo.presenter;
 
 import com.hellom.memory.photo.PhotoContract;
+import com.hellom.memory.photo.model.ContentItemBean;
 import com.hellom.memory.photo.model.ItemBean;
 import com.hellom.memory.photo.model.PhotoModel;
 import com.hellom.memory.photo.view.PhotoFragment;
@@ -17,13 +18,7 @@ public class PhotoPresenter implements PhotoContract.Presenter {
             throw new NullPointerException("v cannot be null!");
         }
         this.photoFragment = photoFragment;
-
         photoModel = new PhotoModel();
-    }
-
-    @Override
-    public List<ItemBean> getItems() {
-        return photoModel.getItems(photoFragment.getActivity());
     }
 
     @Override
@@ -32,12 +27,17 @@ public class PhotoPresenter implements PhotoContract.Presenter {
     }
 
     @Override
-    public void startPreview() {
-
+    public List<ContentItemBean> getSourceData() {
+        return photoModel.getSourceData();
     }
 
     @Override
-    public List<String> getSourceData() {
-        return photoModel.getSourceData();
+    public int deletePhoto(String uri) {
+        return photoModel.deletePhoto(uri);
+    }
+
+    @Override
+    public int getIndexInSourceData(ContentItemBean contentItemBean) {
+        return photoModel.getIndexInSourceData(contentItemBean);
     }
 }

@@ -9,19 +9,17 @@ import com.hellom.mediastore.util.mediastore.MediaStoreUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PhotoModel {
 
-    private List<String> sourceData;
+    private List<ItemBean> itemBeans;
+    private List<ContentItemBean> sourceData;
 
-    public List<String> getSourceData() {
+    public List<ContentItemBean> getSourceData() {
         return sourceData;
     }
 
     public List<ItemBean> getDateSortItems(Context context) {
-        List<ImageDateSortBean> imageDateSortBeans = getDateSortImages(context);
-        //convertSourceData(imageDateSortBeans);
-        return convertDateSortData(imageDateSortBeans);
+        return convertDateSortData(getDateSortImages(context));
     }
 
     public List<ItemBean> getItems(Context context) {
@@ -30,17 +28,15 @@ public class PhotoModel {
 
     private List<ImageDateSortBean> getDateSortImages(Context context) {
         return MediaStoreUtil.getDateSortImages(context, "/storage/emulated/0/DCIM", true);
-        //return MediaStoreUtil.getDateSortImagesFromStorage(context, null, true);
     }
 
     private List<ImageBean> getImages(Context context) {
-        return MediaStoreUtil.getImages(context, "/storage/emulated/0/DCIM", true);
-        //return MediaStoreUtil.getImagesFromStorage(context, null, true);
+        return MediaStoreUtil.getNormalImages(context, "/storage/emulated/0/DCIM");
     }
 
     private List<ItemBean> convertDateSortData(List<ImageDateSortBean> imageDateSortBeans) {
         sourceData = new ArrayList<>();
-        List<ItemBean> itemBeans = new ArrayList<>();
+        itemBeans = new ArrayList<>();
         for (ImageDateSortBean imageDateSortBean : imageDateSortBeans) {
             DateItemBean dateItemBean = new DateItemBean();
             dateItemBean.setDate(imageDateSortBean.getDate());
@@ -48,11 +44,7 @@ public class PhotoModel {
 
             List<ImageBean> imageBeans = imageDateSortBean.getImageBeans();
             for (ImageBean imageBean : imageBeans) {
-                ContentItemBean contentItemBean = new ContentItemBean();
-                contentItemBean.setIndex(sourceData.size());
-                contentItemBean.setUri(imageBean.getPath());
-                itemBeans.add(contentItemBean);
-                sourceData.add(imageBean.getPath());
+                itemBeans.add(wrapContentItemBean(imageBean));
             }
         }
         return itemBeans;
@@ -60,24 +52,51 @@ public class PhotoModel {
 
     private List<ItemBean> convertData(List<ImageBean> imageBeans) {
         sourceData = new ArrayList<>();
-        List<ItemBean> itemBeans = new ArrayList<>();
+        itemBeans = new ArrayList<>();
         for (ImageBean imageBean : imageBeans) {
-            ContentItemBean contentItemBean = new ContentItemBean();
-            contentItemBean.setIndex(sourceData.size());
-            contentItemBean.setUri(imageBean.getPath());
-            itemBeans.add(contentItemBean);
-            sourceData.add(imageBean.getPath());
+            itemBeans.add(wrapContentItemBean(imageBean));
         }
         return itemBeans;
     }
 
-    private void convertSourceData(List<ImageDateSortBean> imageDateSortBeans) {
-        sourceData = new ArrayList<>();
-        for (ImageDateSortBean imageDateSortBean : imageDateSortBeans) {
-            List<ImageBean> imageBeans = imageDateSortBean.getImageBeans();
-            for (ImageBean imageBean : imageBeans) {
-                sourceData.add(imageBean.getPath());
+    private ContentItemBean wrapContentItemBean(ImageBean imageBean) {
+        ContentItemBean contentItemBean = new ContentItemBean();
+        contentItemBean.setDate(imageBean.getDate());
+        contentItemBean.setWidth(imageBean.getWidth());
+        contentItemBean.setHeight(imageBean.getHeight());
+        contentItemBean.setType(imageBean.getType());
+        contentItemBean.setSize(imageBean.getSize());
+        contentItemBean.setUri(imageBean.getPath());
+        sourceData.add(contentItemBean);
+        return contentItemBean;
+    }
+
+    public int deletePhoto(String uri) {
+        sourceData.remove(getIndexInSourceData(uri));
+        for (ItemBean itemBean : itemBeans) {
+            if (itemBean instanceof ContentItemBean) {
+                ContentItemBean tempContentItemBean = (ContentItemBean) itemBean;
+                if (tempContentItemBean.getUri().equals(uri)) {
+                    int listIndex = itemBeans.indexOf(itemBean);
+                    itemBeans.remove(itemBean);
+                    return listIndex;
+                }
             }
         }
+        return -1;
+    }
+
+    private int getIndexInSourceData(String uri) {
+        for (int i = 0; i < sourceData.size(); i++) {
+            ContentItemBean contentItemBean = sourceData.get(i);
+            if (contentItemBean.getUri().equals(uri)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public int getIndexInSourceData(ContentItemBean contentItemBean) {
+        return sourceData.indexOf(contentItemBean);
     }
 }

@@ -13,6 +13,11 @@ public class WallPaperActivity extends BaseActivity {
     private SubsamplingScaleImageView wallPaperPreview;
 
     @Override
+    public void initComponent() {
+
+    }
+
+    @Override
     public void initView() {
         settingAboutStatusBar();
         wallPaperPreview = findViewById(R.id.wallpaper_preview);

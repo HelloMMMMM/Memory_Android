@@ -15,7 +15,8 @@ public class GlideUtil {
     private static RequestOptions getDefaultOptions() {
         if (defaultOptions == null) {
             defaultOptions = new RequestOptions().placeholder(R.drawable.bg_glide_load_default_placeholder)
-                    .error(R.drawable.bg_glide_load_default_placeholder).fallback(R.drawable.bg_glide_load_default_placeholder);
+                    .error(R.drawable.bg_glide_load_default_placeholder)
+                    .fallback(R.drawable.bg_glide_load_default_placeholder);
         }
         return defaultOptions;
     }

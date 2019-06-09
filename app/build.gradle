@@ -47,4 +47,6 @@ dependencies {
     //应用监测工具
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.5'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.5'
+    //event bus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

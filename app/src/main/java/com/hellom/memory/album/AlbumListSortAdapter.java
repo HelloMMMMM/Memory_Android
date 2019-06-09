@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.hellom.memory.CustomScrollSpeedLinearLayoutManager;
+import com.hellom.memory.common.CustomScrollSpeedLinearLayoutManager;
 import com.hellom.memory.R;
 
 public class AlbumListSortAdapter extends BaseQuickAdapter<AlbumItemBean, BaseViewHolder> {
