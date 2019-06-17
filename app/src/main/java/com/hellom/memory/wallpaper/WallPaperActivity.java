@@ -2,6 +2,7 @@ package com.hellom.memory.wallpaper;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.view.View;
 
 import com.blankj.utilcode.util.BarUtils;
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -9,7 +10,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
 
-public class WallPaperActivity extends BaseActivity {
+public class WallPaperActivity extends BaseActivity implements View.OnClickListener {
     private SubsamplingScaleImageView wallPaperPreview;
 
     @Override
@@ -25,12 +26,14 @@ public class WallPaperActivity extends BaseActivity {
 
     @Override
     public void initListener() {
-
+        findViewById(R.id.tv_rotate).setOnClickListener(this);
+        findViewById(R.id.tv_set_wallpaper).setOnClickListener(this);
     }
 
     @Override
     public void initData() {
         String imageUri = getIntent().getStringExtra("uri");
+        wallPaperPreview.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP);
         wallPaperPreview.setImage(ImageSource.uri(imageUri));
     }
 
@@ -48,5 +51,33 @@ public class WallPaperActivity extends BaseActivity {
             BarUtils.setStatusBarLightMode(this, false);
         }
         setStatusBarVisibility(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_rotate:
+                changeOrientation();
+                break;
+            case R.id.tv_set_wallpaper:
+                break;
+        }
+    }
+
+    private void changeOrientation() {
+        switch (wallPaperPreview.getOrientation()) {
+            case SubsamplingScaleImageView.ORIENTATION_0:
+                wallPaperPreview.setOrientation(SubsamplingScaleImageView.ORIENTATION_90);
+                break;
+            case SubsamplingScaleImageView.ORIENTATION_90:
+                wallPaperPreview.setOrientation(SubsamplingScaleImageView.ORIENTATION_180);
+                break;
+            case SubsamplingScaleImageView.ORIENTATION_180:
+                wallPaperPreview.setOrientation(SubsamplingScaleImageView.ORIENTATION_270);
+                break;
+            case SubsamplingScaleImageView.ORIENTATION_270:
+                wallPaperPreview.setOrientation(SubsamplingScaleImageView.ORIENTATION_0);
+                break;
+        }
     }
 }
