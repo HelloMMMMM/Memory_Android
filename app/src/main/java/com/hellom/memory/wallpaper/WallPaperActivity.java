@@ -1,17 +1,31 @@
 package com.hellom.memory.wallpaper;
 
+import android.app.WallpaperManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ImageUtils;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseActivity;
+import com.hellom.memory.dialog.DialogFactory;
+import com.hellom.memory.dialog.LoadingDialogFragment;
+
+import java.io.IOException;
 
 public class WallPaperActivity extends BaseActivity implements View.OnClickListener {
     private SubsamplingScaleImageView wallPaperPreview;
+
+    private LoadingDialogFragment loadingDialogFragment;
 
     @Override
     public void initComponent() {
@@ -60,6 +74,7 @@ public class WallPaperActivity extends BaseActivity implements View.OnClickListe
                 changeOrientation();
                 break;
             case R.id.tv_set_wallpaper:
+                setWallpaperOption();
                 break;
         }
     }
@@ -79,5 +94,57 @@ public class WallPaperActivity extends BaseActivity implements View.OnClickListe
                 wallPaperPreview.setOrientation(SubsamplingScaleImageView.ORIENTATION_0);
                 break;
         }
+    }
+
+    private void setWallpaperOption() {
+        showLoading();
+        ThreadUtils.executeBySingle(new ThreadUtils.Task<Object>() {
+
+            @Nullable
+            @Override
+            public Object doInBackground() throws Throwable {
+                setWallpaper();
+                return null;
+            }
+
+            @Override
+            public void onSuccess(@Nullable Object result) {
+                dismissLoading();
+                ToastUtils.showShort(getString(R.string.wallpaper_preview_set_wallaper_success));
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                dismissLoading();
+                ToastUtils.showShort(getString(R.string.wallpaper_preview_set_wallaper_fail));
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                dismissLoading();
+                ToastUtils.showShort(getString(R.string.wallpaper_preview_set_wallaper_fail));
+                LogUtils.e(t.fillInStackTrace());
+            }
+        });
+    }
+
+    private void setWallpaper() {
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        Bitmap tempBitmap = ImageUtils.view2Bitmap(wallPaperPreview);
+        try {
+            wallpaperManager.setBitmap(tempBitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showLoading() {
+        loadingDialogFragment = DialogFactory.createLoadingDialog(getSupportFragmentManager(),
+                getString(R.string.wallpaper_preview_set_wallpaper_loading_content));
+    }
+
+    private void dismissLoading() {
+        loadingDialogFragment.dismiss();
     }
 }

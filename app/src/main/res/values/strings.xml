@@ -28,6 +28,9 @@
     <!--壁纸预览-->
     <string name="wallpaper_preview_rotate">向右旋转</string>
     <string name="wallpaper_preview_set_wallpaper">设为壁纸</string>
+    <string name="wallpaper_preview_set_wallpaper_loading_content">正在设置壁纸，请稍候…</string>
+    <string name="wallpaper_preview_set_wallaper_success">壁纸设置成功</string>
+    <string name="wallpaper_preview_set_wallaper_fail">壁纸设置失败</string>
 
     <!--照片信息弹窗-->
     <string name="dialog_photo_info_title">照片信息</string>

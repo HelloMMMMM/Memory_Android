@@ -44,7 +44,7 @@
         android:layout_marginBottom="16dp"
         android:padding="8dp"
         android:text="@string/dialog_tip_sure"
-        android:textColor="@color/c_13227a"
+        android:textColor="@color/c_666666"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"

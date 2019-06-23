@@ -20,4 +20,10 @@ public class DialogFactory {
         tipDialogFragment.setCallback(callback);
         tipDialogFragment.show(fragmentManager, null);
     }
+
+    public static LoadingDialogFragment createLoadingDialog(FragmentManager fragmentManager, String loadingContent) {
+        LoadingDialogFragment loadingDialogFragment = LoadingDialogFragment.newInstance(loadingContent);
+        loadingDialogFragment.show(fragmentManager, null);
+        return loadingDialogFragment;
+    }
 }

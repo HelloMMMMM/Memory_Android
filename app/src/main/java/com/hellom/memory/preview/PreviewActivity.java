@@ -108,7 +108,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
             case R.id.iv_menu:
                 break;
             case R.id.iv_set_wallpaper:
-                setWallpaper();
+                jumpToSetWallpaper();
                 break;
             case R.id.iv_delete:
                 showDeleteTip();
@@ -169,18 +169,11 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
                 previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()));
     }
 
-    private void setWallpaper() {
+    private void jumpToSetWallpaper() {
         Bundle bundle = new Bundle();
         bundle.putString("uri",
                 previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()).getUri());
         jump(WallPaperActivity.class, bundle, false);
-        /*String imageUri = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
-        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
-        try {
-            wallpaperManager.setStream(new FileInputStream(imageUri));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     private void showDeleteTip() {
