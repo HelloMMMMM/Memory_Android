@@ -123,7 +123,8 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         //预览界面特殊处理(状态栏透明，图片可全屏预览,topbar向下偏移)
         BarUtils.setStatusBarColor(this, Color.TRANSPARENT);
         subMarginTopEqualStatusBarHeightForContent();
-        BarUtils.addMarginTopEqualStatusBarHeight(topBar);
+        topBar.setPadding(0, BarUtils.getStatusBarHeight(), 0, topBar.getPaddingBottom());
+        //BarUtils.addMarginTopEqualStatusBarHeight(topBar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //6.0以上状态栏改为暗模式
             BarUtils.setStatusBarLightMode(this, false);

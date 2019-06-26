@@ -11,7 +11,7 @@ public abstract class ItemBean implements MultiItemEntity {
     public static final int ITEM_TYPE_CONTENT = 2;
 
     private static final int DEFAULT_SPAN_SIZE = 1;
-    public static final int MAX_SPAN_SIZE = 4;
+    public static final int MAX_SPAN_SIZE = 3;
 
     public int getSpanSize() {
         int itemType = getItemType();

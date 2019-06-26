@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hellom.mediastore.util.mediastore.MediaStoreUtil;
 import com.hellom.mediastore.util.mediastore.bean.AlbumBean;
-import com.hellom.memory.common.CustomScrollSpeedLinearLayoutManager;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseFragment;
 
@@ -34,7 +33,7 @@ public class AlbumFragment extends BaseFragment {
     @Override
     public void initView(View layout) {
         RecyclerView albumList = layout.findViewById(R.id.album_list);
-        albumList.setLayoutManager(new CustomScrollSpeedLinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        albumList.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
         albumListSortAdapter = new AlbumListSortAdapter(R.layout.layout_album_list_item);
         albumList.setAdapter(albumListSortAdapter);
     }

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hellom.memory.common.CustomScrollSpeedGridLayoutManager;
 import com.hellom.memory.R;
 import com.hellom.memory.base.BaseFragment;
 import com.hellom.memory.eventbus.BaseEvent;
@@ -49,7 +48,7 @@ public class PhotoFragment extends BaseFragment implements PhotoContract.View {
     @Override
     public void initView(View layout) {
         RecyclerView photoList = layout.findViewById(R.id.photo_list);
-        GridLayoutManager mGridLayoutManager = new CustomScrollSpeedGridLayoutManager(getActivity(), ItemBean.MAX_SPAN_SIZE);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(getActivity(), ItemBean.MAX_SPAN_SIZE);
         photoList.setLayoutManager(mGridLayoutManager);
         photoListAdapter = new PhotoListAdapter(null);
         photoListAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
