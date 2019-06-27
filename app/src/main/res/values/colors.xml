@@ -14,8 +14,8 @@
 
     <color name="c_ffffff">#ffffff</color>
     <color name="c_000000">#000000</color>
-    <color name="c_cc000000">#cc000000</color>
-    <color name="c_33000000">#33000000</color>
+    <color name="c_ff000000">#ff000000</color>
+    <color name="c_00000000">#00000000</color>
     <color name="c_bdbdbd">#BDBDBD</color>
     <color name="c_8a8a8a">#8a8a8a</color>
     <color name="c_13227a">#13227a</color>

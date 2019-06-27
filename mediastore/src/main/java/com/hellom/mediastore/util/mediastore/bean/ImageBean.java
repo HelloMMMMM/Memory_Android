@@ -14,6 +14,7 @@ public class ImageBean {
     private int height;
     private String size;
     private String type;
+    private String time;
 
     public long getId() {
         return id;
@@ -85,5 +86,13 @@ public class ImageBean {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

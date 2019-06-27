@@ -62,6 +62,7 @@ public class PhotoModel {
     private ContentItemBean wrapContentItemBean(ImageBean imageBean) {
         ContentItemBean contentItemBean = new ContentItemBean();
         contentItemBean.setDate(imageBean.getDate());
+        contentItemBean.setTime(imageBean.getTime());
         contentItemBean.setWidth(imageBean.getWidth());
         contentItemBean.setHeight(imageBean.getHeight());
         contentItemBean.setType(imageBean.getType());

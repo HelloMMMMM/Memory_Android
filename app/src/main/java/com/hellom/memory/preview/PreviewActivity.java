@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -34,6 +35,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     private PreviewPageAdapter previewPageAdapter;
 
     private View topBar, bottomBar;
+    private TextView photoTitle;
 
     @Override
     public void initComponent() {
@@ -43,6 +45,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initView() {
         topBar = findViewById(R.id.preview_top_bar);
+        photoTitle = findViewById(R.id.tv_photo_title);
         settingAboutStatusBar();
         bottomBar = findViewById(R.id.preview_bottom_bar);
         previewPages = findViewById(R.id.preview_pages);
@@ -68,6 +71,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
             @Override
             public void onPageSelected(int position) {
+                setPhotoTitle(position);
             }
 
             @Override
@@ -88,7 +92,11 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         List<ContentItemBean> contents = getIntent().getParcelableArrayListExtra("contents");
         int currentIndex = getIntent().getIntExtra("currentIndex", 0);
         previewPageAdapter.setSrcUris(contents);
-        previewPages.setCurrentItem(currentIndex, false);
+        if (currentIndex == 0) {
+            setPhotoTitle(0);
+        } else {
+            previewPages.setCurrentItem(currentIndex, false);
+        }
     }
 
     @Override
@@ -131,6 +139,11 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    private void setPhotoTitle(int position) {
+        ContentItemBean contentItemBean = previewPageAdapter.getItemData(position);
+        photoTitle.setText(String.format("%s  %s", contentItemBean.getDate(), contentItemBean.getTime()));
+    }
+
     private void setBarVisibleOrGone() {
         final boolean visable = !(topBar.getVisibility() == View.VISIBLE);
         Animation.AnimationListener animationListener = new Animation.AnimationListener() {
@@ -167,13 +180,13 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     private void showPhotoInfoDialog() {
         DialogFactory.createPhotoInfoDialog(getSupportFragmentManager(),
-                previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()));
+                previewPageAdapter.getItemData(previewPages.getCurrentItem()));
     }
 
     private void jumpToSetWallpaper() {
         Bundle bundle = new Bundle();
         bundle.putString("uri",
-                previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()).getUri());
+                previewPageAdapter.getItemData(previewPages.getCurrentItem()).getUri());
         jump(WallPaperActivity.class, bundle, false);
     }
 
@@ -194,7 +207,7 @@ public class PreviewActivity extends BaseActivity implements View.OnClickListene
 
     private void deletePhoto() {
         //FileUtils.delete(previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem()).getUri());
-        ContentItemBean contentItemBean = previewPageAdapter.getCurrentItemData(previewPages.getCurrentItem());
+        ContentItemBean contentItemBean = previewPageAdapter.getItemData(previewPages.getCurrentItem());
         previewPageAdapter.deleteCurrentItemData(previewPages.getCurrentItem());
         EventBus.getDefault().post(new DeletePhotoEvent(contentItemBean.getUri()));
     }

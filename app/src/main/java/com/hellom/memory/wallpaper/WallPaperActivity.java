@@ -102,7 +102,7 @@ public class WallPaperActivity extends BaseActivity implements View.OnClickListe
 
             @Nullable
             @Override
-            public Object doInBackground() throws Throwable {
+            public Object doInBackground() {
                 setWallpaper();
                 return null;
             }

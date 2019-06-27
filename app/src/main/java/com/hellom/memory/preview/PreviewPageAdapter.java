@@ -101,7 +101,7 @@ public class PreviewPageAdapter extends PagerAdapter implements View.OnClickList
         void onItemClick();
     }
 
-    ContentItemBean getCurrentItemData(int position) {
+    ContentItemBean getItemData(int position) {
         return srcUris.get(position);
     }
 

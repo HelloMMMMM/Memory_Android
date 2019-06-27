@@ -9,6 +9,7 @@ import android.os.Parcelable;
  */
 public class ContentItemBean extends ItemBean implements Parcelable {
     private String date;
+    private String time;
     private String type;
     private int width;
     private int height;
@@ -67,6 +68,14 @@ public class ContentItemBean extends ItemBean implements Parcelable {
         this.height = height;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public int getItemType() {
         return ITEM_TYPE_CONTENT;
@@ -83,6 +92,7 @@ public class ContentItemBean extends ItemBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.date);
+        dest.writeString(this.time);
         dest.writeString(this.type);
         dest.writeInt(this.width);
         dest.writeInt(this.height);
@@ -92,6 +102,7 @@ public class ContentItemBean extends ItemBean implements Parcelable {
 
     protected ContentItemBean(Parcel in) {
         this.date = in.readString();
+        this.time = in.readString();
         this.type = in.readString();
         this.width = in.readInt();
         this.height = in.readInt();

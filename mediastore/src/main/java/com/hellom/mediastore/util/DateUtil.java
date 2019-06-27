@@ -57,8 +57,7 @@ public class DateUtil {
      */
     public static String getDate(Context context, long timeMillis) {
         String pattern = context.getResources().getString(R.string.date_with_year);
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
-        return dateFormat.format(new Date(timeMillis));
+        return format(pattern, timeMillis);
     }
 
     /**
@@ -69,6 +68,21 @@ public class DateUtil {
      */
     public static String getDateWithoutYear(Context context, long timeMillis) {
         String pattern = context.getResources().getString(R.string.date_without_year);
+        return format(pattern, timeMillis);
+    }
+
+    /**
+     * 返回格式化的时间（年月日时分）
+     *
+     * @param timeMillis 时间戳
+     * @return 格式化的-年月日时分
+     */
+    public static String getTime(Context context, long timeMillis) {
+        String pattern = context.getResources().getString(R.string.time);
+        return format(pattern, timeMillis);
+    }
+
+    private static String format(String pattern, long timeMillis) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
         return dateFormat.format(new Date(timeMillis));
     }

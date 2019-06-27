@@ -194,8 +194,8 @@ public class MediaStoreUtil {
                         //图片信息
                         long id = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID));
                         int dateColumnIndex = cursor.getColumnIndex(MediaStore.Images.Media.DATE_ADDED);
-                        long dateSecond = cursor.getLong(dateColumnIndex);
-                        String date = DateUtil.getDefaultDate(context, DateUtil.convertMs(dateSecond));
+                        long timeSecond = cursor.getLong(dateColumnIndex);
+                        String date = DateUtil.getDefaultDate(context, DateUtil.convertMs(timeSecond));
                         String albumId = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
                         String albumName = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                         int width = cursor.getInt(cursor.getColumnIndex(MediaStore.Images.Media.WIDTH));
@@ -206,6 +206,7 @@ public class MediaStoreUtil {
                         imageBean.setId(id);
                         imageBean.setPath(path);
                         imageBean.setDate(date);
+                        imageBean.setTime(DateUtil.getTime(context, DateUtil.convertMs(timeSecond)));
                         imageBean.setAlbumId(albumId);
                         imageBean.setAlbumName(albumName);
                         imageBean.setWidth(width);
