@@ -1,4 +1,4 @@
-package com.hellom.memory.component;
+package com.hellom.memory.common;
 
 import android.graphics.Rect;
 import android.view.View;

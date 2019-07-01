@@ -47,4 +47,7 @@
 
     <!--删除图片弹窗-->
     <string name="delete_photo_tip_content">确定删除此照片吗？删除后不可恢复。</string>
+
+    <!--照片编辑-->
+    <string name="photo_edit_cancel">取消</string>
 </resources>
